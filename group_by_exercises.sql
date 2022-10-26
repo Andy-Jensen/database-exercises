@@ -63,15 +63,13 @@ HAVING gender = 'F';
 /*
 Using your query that generates a username for all of the employees, generate a count employees for each unique username. Are there any duplicate usernames? BONUS: How many duplicate usernames are there?
 */
-SELECT CONCAT(first_name, '.', last_name) AS username, COUNT(*) AS number_of_usernames
-FROM employees
-GROUP BY username;
--- Yes there are duplicates
-SELECT CONCAT(first_name, '.', last_name) AS username, COUNT(*) AS number_of_usernames
+SELECT LOWER(CONCAT(SUBSTR(first_name, 1, 1), SUBSTR(last_name, 1, 4), '_', SUBSTR(birth_date, 6, 2), SUBSTR(birth_date, 3, 2))) AS username, COUNT(*) AS number_of_usernames
 FROM employees
 GROUP BY username
-HAVING number_of_usernames > 1;
--- there are 19683 usernames that have duplicates
+HAVING number_of_usernames > 1
+ORDER BY number_of_usernames DESC;
+-- Yes there are duplicates
+-- there are 13251 usernames that have duplicates
 
 /*
 Bonus: More practice with aggregate functions:
