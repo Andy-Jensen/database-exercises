@@ -52,7 +52,7 @@ WHERE employees.gender = 'F' AND first_name IN (
 												JOIN dept_manager USING(emp_no)
 												WHERE dept_manager.to_date > CURDATE()
 												);
-												-- Isamu Legleitner, Karsten Sigstam, Leon DasSarma, Hilary Kambil
+											-- Isamu Legleitner, Karsten Sigstam, Leon DasSarma, Hilary Kambil
 												
 /*
 Find all the employees who currently have a higher salary than the companies overall, historical average salary.
@@ -63,7 +63,7 @@ JOIN salaries USING(emp_no)
 WHERE salaries.to_date > CURDATE() AND salary > (
 				SELECT AVG(salary)
 					FROM salaries
-					#add this line to get average salary not including current employees salaries
+					#add the line below to get average salary not including current employees salaries
 					#WHERE to_date < CURDATE()
 					)
 					GROUP BY emp_no, first_name, last_name;
@@ -74,3 +74,15 @@ How many current salaries are within 1 standard deviation of the current highest
 Hint You will likely use multiple subqueries in a variety of ways
 Hint It's a good practice to write out all of the small queries that you can. Add a comment above the query showing the number of rows returned. You will use this number (or the query that produced it) in other, larger queries.
 */
+SELECT COUNT(*) AS number_of_emp, (COUNT(*) / (
+												SELECT COUNT(to_date)
+												FROM salaries
+												WHERE to_date > CURDATE()) * 100) AS percent_emps
+												
+FROM salaries
+WHERE salary >= (
+			SELECT (MAX(salary) - STDDEV(salary))
+			FROM salaries
+				WHERE to_date > CURDATE()
+				)
+AND salaries.to_date > CURDATE();

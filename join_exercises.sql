@@ -159,27 +159,9 @@ FROM
 	) AS g
 LEFT JOIN
 	(
-	SELECT CONCAT(first_name, last_name) AS department_manager, emp_no
+	SELECT CONCAT(first_name, ' ', last_name) AS department_manager, dept_name
 	FROM employees
 	JOIN dept_manager USING(emp_no)
-	WHERE dept_manager.to_date > CURDATE()
-	) AS e ON g.emp_no = e.emp_no;
-	
--- A different approach using two types of subQ's: ERROR: Operand should contain 1 column(s)
-SELECT CONCAT(g.first_name, ' ', g.last_name) AS 'Employee Name', g.dept_name AS 'Department Name', CONCAT(employees.first_name, employees.last_name) AS 'Department Manager'
-FROM 
-	(
-	SELECT first_name, last_name, dept_name, emp_no
-	FROM employees
-	JOIN dept_emp USING(emp_no)
 	JOIN departments USING(dept_no)
-	WHERE dept_emp.to_date > CURDATE()
-	) AS g
-JOIN employees
-WHERE CONCAT(employees.first_name, employees.last_name) =
-	(
-	SELECT CONCAT(first_name, last_name) AS department_manager, emp_no
-	FROM employees
-	JOIN dept_manager USING(emp_no)
 	WHERE dept_manager.to_date > CURDATE()
-	);
+	) AS e ON g.dept_name = e.dept_name;
