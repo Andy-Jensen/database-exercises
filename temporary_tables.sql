@@ -96,7 +96,7 @@ UPDATE noether_2035.avg_salary_and_department
           
 # final table with results
 SELECT * FROM noether_2035.avg_salary_and_department;
-# the best department to work for is sales. the worst department to work for is research.
+# the best department to work for is sales. the worst department to work for is human resources.
 
 /*
 BONUS- To your work with current salary zscores, determine the overall historic average departement average salary, the historic overall average, and the historic zscores for salary. Do the zscores for current department average salaries tell a similar or a different story than the historic department salary zscores?
@@ -142,4 +142,4 @@ JOIN noether_2035.avg_salary_and_department USING(dept_name);
      
 /* 
 The historical data shows a similar trend with current z-scores. Best department to work for was sales, 
-and worst was research.
+and worst was human resources.
