@@ -19,7 +19,7 @@ SELECT first_name, last_name,
           ELSE 'other'
      END AS alpha_group
 FROM employees;
-#or use BETWEEN
+#or use BETWEEN or <=
 
 /*
 How many employees (current or previous) were born in each decade?
@@ -54,6 +54,6 @@ FROM(
      FROM salaries
      JOIN dept_emp USING (emp_no)
      JOIN departments USING (dept_no)
-     WHERE dept_emp.to_date > CURDATE()
+     WHERE dept_emp.to_date > CURDATE() AND salaries.to_date > CURDATE()
      ) as e
 GROUP BY department_catagories;
