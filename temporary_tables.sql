@@ -13,7 +13,8 @@ CREATE TEMPORARY TABLE noether_2035.employees_with_departments AS (
 /*
 Add a column named full_name to this table. It should be a VARCHAR whose length is the sum of the lengths of the first name and last name columns
 */
-ALTER TABLE noether_2035.employees_with_departments ADD full_name VARCHAR(100);
+DESCRIBE noether_2035.employees_with_departments;
+ALTER TABLE noether_2035.employees_with_departments ADD full_name VARCHAR(31);
 
 /*
 Update the table so that full name column contains the correct data
@@ -29,10 +30,14 @@ ALTER TABLE noether_2035.employees_with_departments DROP COLUMN last_name;
 /*
 What is another way you could have ended up with this same table?
 */
-SELECT CONCAT(first_name, ' ', last_name) as full_name, dept_name
-FROM employees
-JOIN dept_emp USING (emp_no)
-JOIN departments USING (dept_no);
+CREATE TEMPORARY TABLE noether_2035.new_way AS (
+     SELECT CONCAT(first_name, ' ', last_name) as full_name, dept_name
+     FROM employees
+     JOIN dept_emp USING (emp_no)
+     JOIN departments USING (dept_no)
+     );
+     
+SELECT * FROM noether_2035.new_way;
 
 /*
 Create a temporary table based on the payment table from the sakila database.
@@ -130,6 +135,10 @@ UPDATE noether_2035.historical_info
 # combined information for z-score and other comparison
 SELECT * FROM noether_2035.historical_info
      JOIN noether_2035.avg_salary_and_department USING(dept_name);
+     
+SELECT dept_name, historical_zscore, zscore
+FROM noether_2035.historical_info
+JOIN noether_2035.avg_salary_and_department USING(dept_name);
      
 /* 
 The historical data shows a similar trend with current z-scores. Best department to work for was sales, 
